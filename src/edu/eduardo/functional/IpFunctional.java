@@ -10,21 +10,22 @@ import java.util.stream.IntStream;
 public class IpFunctional {
 
 	public static void main(String[] args) {
-//		printMultiples(3,10);
-//		System.out.println(asterisks(5));
-//		linesAsterisks(5);
-//		System.out.println(sumExceeds(14));
-//		System.out.println(doubleFactorial(7));
-//		System.out.println(countDivisors(36));
-//		System.out.println(isPerfect(28));
-//		System.out.println(isPerfect(496));
-//		System.out.println(countPerfets(500));
-//		System.out.println(isPrime(7));
-//		System.out.println(countPrimes(30));
-//		System.out.println(biggestDiff(50));
-//		System.out.println(firstDigit(6532));
-//		System.out.println(isCapicua(3241423));
+		printMultiples(3,10);
+		System.out.println(asterisks(5));
+		linesAsterisks(5);
+		System.out.println(sumExceeds(14));
+		System.out.println(doubleFactorial(7));
+		System.out.println(countDivisors(36));
+		System.out.println(isPerfect(28));
+		System.out.println(isPerfect(496));
+		System.out.println(countPerfets(500));
+		System.out.println(isPrime(7));
+		System.out.println(countPrimes(30));
+		System.out.println(biggestDiff(50));
+		System.out.println(firstDigit(6532));
+		System.out.println(isCapicua(3241423));
 		System.out.println(isCapicuaFunctional(332414233));
+		System.out.println(untilOne(3));
 	}
 
 	static void printMultiples(int k, int n) {
@@ -159,32 +160,46 @@ public class IpFunctional {
 
 	static boolean isCapicuaFunctional(int n) {
 		List<Integer> digits = String.valueOf(n).chars().boxed().collect(Collectors.toList());
-		
+
 		// split a list of integers in half
 		Collection<List<Integer>> values = IntStream.range(0, digits.size()).boxed()
 				.collect(Collectors.groupingBy(index -> index < digits.size() / 2, Collectors.toList())).values();
+
 		Iterator<List<Integer>> iterator = values.iterator();
-		
 		List<Integer> first = iterator.next(); // first half
 		List<Integer> second = iterator.next(); // second half
-		
+
 		// if n is odd, both lists are not balanced, we need to remove the first element
 		// of the first half
 		if (digits.size() % 2 != 0) {
 			first = first.stream().skip(1).collect(Collectors.toList());
 		}
-		
+
 		// reverse order for both lists became equal
 		first = first.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-		
+
 		// replace natural numbers for elements of the list digits
 		first = replaceAll(first, digits);
 		second = replaceAll(second, digits);
 
 		return first.equals(second);
 	}
-	
-	static List<Integer> replaceAll(List<Integer> list, List<Integer> list2) {
+
+	private static List<Integer> replaceAll(List<Integer> list, List<Integer> list2) {
 		return list.stream().mapToInt(i -> list2.get(i)).boxed().collect(Collectors.toList());
+	}
+
+	static int untilOne(int n) {
+		int c = 0;
+		while (n != 1) {
+			if (n % 2 == 0) {
+				n = n / 2;
+			} else {
+				n = n * 3 + 1;
+			}
+			c++;
+		}
+
+		return c;
 	}
 }
