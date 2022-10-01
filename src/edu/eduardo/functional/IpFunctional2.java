@@ -67,6 +67,7 @@ public class IpFunctional2 {
 	}
 
 	static boolean belong(List<Integer> v, int n) {
+		// return v.contains(n);
 		return v.stream().anyMatch(e -> e == n);
 	}
 
