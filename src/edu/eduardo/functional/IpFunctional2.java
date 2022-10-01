@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -12,41 +13,26 @@ public class IpFunctional2 {
 
 	public static void main(String[] args) {
 		List<Integer> numbers = Arrays
-				.asList(new Integer[] { 1, 0, 3, 34, 7, 4, 0, 12, 8, 95, 0, 3, 12, 95, 7, 34, 0, 0, 21, 5, 95 });
+				.asList(new Integer[] { 1, 45, 3, 34, 7, 4, 0, 12, 8, 95, 0, 3, 12, 95, 7, 34, 0, 0, 21, 5, 95 });
 		List<Double> doubles = Arrays.asList(5.2, 4.2, 1.0, 8.7, 3.5);
 
-		// 1
 		System.out.println(soma(doubles.stream()));
-		// 2
 		System.out.println(zeros(numbers));
-		// 3
 		System.out.println(conta(numbers, 7));
-		// 4
 		System.out.println(menores(numbers, 20));
-		// 5
 		System.out.println(pertence(numbers, 33));
-		// 6
 		System.out.println(doisZeros(numbers));
-		// 7
 		quadrados(25).forEach(System.out::println);
-		// 8
 		quadradosDecrescente(25).forEach(System.out::println);
-		// 9
 		divisores(30).forEach(System.out::println);
-		// 10
 		System.out.println(maximo(doubles.stream()));
-		// 11
 		System.out.println(primeiraPosicaoMaximo(numbers));
-		// 12
 		System.out.println(ultimaPosicaoMaximo(numbers));
-		// 13
 		System.out.println(somaPosicoesMaximo(numbers));
-		// 14
 		posicoesMaximo(numbers).forEach(System.out::println);
-		// 15
 		aoQuadrado(numbers).forEach(System.out::println);
-		// 16
 		inverte(numbers).forEach(System.out::println);
+		System.out.println(compara(numbers, 34).toString());
 	}
 
 	static double soma(Stream<Double> v) {
@@ -123,6 +109,32 @@ public class IpFunctional2 {
 		List<Integer> indexes = IntStream.rangeClosed(0, v.size() - 1).boxed().sorted(Collections.reverseOrder())
 				.collect(Collectors.toList());
 		return indexes.stream().map(index -> v.get(index)).collect(Collectors.toList());
+	}
+
+	static Map<String, Long> compara(List<Integer> v, int n) {
+		return IntStream.range(0, v.size()).mapToObj(index -> new SpecialInt(v.get(index), n))
+				.collect(Collectors.groupingBy(SpecialInt::getCategory, Collectors.counting()));
+	}
+
+	static class SpecialInt {
+
+		int i;
+		int n;
+
+		public SpecialInt(int i, int n) {
+			this.i = i;
+			this.n = n;
+		}
+
+		public String getCategory() {
+			if (i > n) {
+				return "maior";
+			} else if (i == n) {
+				return "igual";
+			} else {
+				return "menor";
+			}
+		}
 	}
 
 }
