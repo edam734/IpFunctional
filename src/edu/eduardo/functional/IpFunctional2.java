@@ -22,6 +22,8 @@ public class IpFunctional2 {
 		List<Integer> numbers = Arrays
 				.asList(new Integer[] { 1, 45, 3, 34, 7, 4, 0, 12, 8, 95, 0, 3, 12, 95, 7, 34, 0, 0, 21, 5, 95 });
 		List<Integer> numbers2 = Arrays.asList(new Integer[] { 104, 56, 23, 90 });
+		List<Integer> scores = Arrays
+				.asList(new Integer[] { 12, 15, 10, 10, 14, 16, 20, 15, 11, 15, 12, 16, 9, 13, 8, 14, 12, 12, 13 });
 		List<Double> doubles = Arrays.asList(5.2, 4.2, 1.0, 8.7, 3.5);
 
 		System.out.println(sum(doubles.stream()));
@@ -42,9 +44,10 @@ public class IpFunctional2 {
 		invert(numbers).forEach(System.out::println);
 		System.out.println(splitByCategoryCount(numbers, 34).toString());
 		System.out.println(splitByCategoryLists(numbers, 34).toString());
-		System.out.println(paresAposNum(numbers, 7));
-		System.out.println(paresAposUltimoSete(numbers, 7));
-		System.out.println(junta(numbers, numbers2).toString());
+		System.out.println(evensAfterNum(numbers, 7));
+		System.out.println(evensAfterLastNum(numbers, 7));
+		System.out.println(join(numbers, numbers2).toString());
+		System.out.println(histogram(scores).toString());
 	}
 
 	static double sum(Stream<Double> v) {
@@ -196,7 +199,8 @@ public class IpFunctional2 {
 	}
 
 	static List<Integer> getIndexesOfNum(List<Integer> v, int n) {
-		return IntStream.range(0, v.size() - 1).filter(index -> v.get(index) == n).boxed().collect(Collectors.toList());
+		return IntStream.rangeClosed(0, v.size() - 1).filter(index -> v.get(index) == n).boxed()
+				.collect(Collectors.toList());
 	}
 
 	static int indexFirstOccurrence(List<Integer> v, int n) {
@@ -207,22 +211,31 @@ public class IpFunctional2 {
 		return v.lastIndexOf(n);
 	}
 
-	static int paresAposNum(List<Integer> v, int n) {
+	static int evensAfterNum(List<Integer> v, int n) {
 		int startIndex = indexFirstOccurrence(v, n);
-		return (int) IntStream.range(startIndex, v.size() - 1).mapToObj(index -> v.get(index)).filter(e -> e % 2 == 0)
-				.count();
+		return (int) IntStream.rangeClosed(startIndex, v.size() - 1).mapToObj(index -> v.get(index))
+				.filter(e -> e % 2 == 0).count();
 	}
 
-	static int paresAposUltimoSete(List<Integer> v, int n) {
+	static int evensAfterLastNum(List<Integer> v, int n) {
 		int lastIndex = inexLastOccurrence(v, n);
-		return (int) IntStream.range(lastIndex, v.size() - 1).mapToObj(index -> v.get(index)).filter(e -> e % 2 == 0)
-				.count();
+		return (int) IntStream.rangeClosed(lastIndex, v.size() - 1).mapToObj(index -> v.get(index))
+				.filter(e -> e % 2 == 0).count();
 	}
 
-	static List<Integer> junta(List<Integer> v, List<Integer> w) {
+	static List<Integer> join(List<Integer> v, List<Integer> w) {
 		List<Integer> all = new ArrayList<Integer>(v);
 		all.addAll(w);
 		return all;
 	}
-	
+
+	static int countOccurrencesOfN(List<Integer> v, int n) {
+		return getIndexesOfNum(v, n).size();
+	}
+
+	static List<Integer> histogram(List<Integer> v) {
+		return IntStream.rangeClosed(0, v.size() - 1).mapToObj(index -> countOccurrencesOfN(v, v.get(index)))
+				.collect(Collectors.toList());
+	}
+
 }
