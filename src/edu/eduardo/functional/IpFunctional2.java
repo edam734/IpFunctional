@@ -133,7 +133,7 @@ public class IpFunctional2 {
 
 	static Map<String, List<Integer>> splitByCategoryLists(List<Integer> v, int n) {
 		return IntStream.range(0, v.size()).mapToObj(index -> new SpecialInt(v.get(index), n))
-				.collect(Collectors.groupingBy(SpecialInt::getCategory, SpectialIntCollector.toList()));
+				.collect(Collectors.groupingBy(SpecialInt::getCategory, SpecialIntCollector.toList()));
 	}
 
 	static class SpecialInt {
@@ -162,10 +162,10 @@ public class IpFunctional2 {
 
 	}
 
-	static class SpectialIntCollector implements Collector<SpecialInt, List<Integer>, List<Integer>> {
+	static class SpecialIntCollector implements Collector<SpecialInt, List<Integer>, List<Integer>> {
 
-		public static SpectialIntCollector toList() {
-			return new SpectialIntCollector();
+		public static SpecialIntCollector toList() {
+			return new SpecialIntCollector();
 		}
 
 		@Override
