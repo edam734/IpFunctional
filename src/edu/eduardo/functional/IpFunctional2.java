@@ -207,7 +207,7 @@ public class IpFunctional2 {
 		return getIndexesOfNum(v, n).get(0);
 	}
 
-	static int inexLastOccurrence(List<Integer> v, int n) {
+	static int indexLastOccurrence(List<Integer> v, int n) {
 		return v.lastIndexOf(n);
 	}
 
@@ -218,7 +218,7 @@ public class IpFunctional2 {
 	}
 
 	static int evensAfterLastNum(List<Integer> v, int n) {
-		int lastIndex = inexLastOccurrence(v, n);
+		int lastIndex = indexLastOccurrence(v, n);
 		return (int) IntStream.rangeClosed(lastIndex, v.size() - 1).mapToObj(index -> v.get(index))
 				.filter(e -> e % 2 == 0).count();
 	}
